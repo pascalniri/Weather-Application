@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/e83290a517.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com
+/css2?family=Nunito:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500
+;600&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <div class="card">
+        <div class="error">
+            <p>Invalid City Name</p>
+        </div>
+        <div class="srch">
+            <input type="text" placeholder="Enter City name" class="searchbar">
+            <button type="button" class="searchbtn"><img src="pics/search-icon-png-21.png" id="srch" height="10px" width="10px"></button>
+            
+        </div>
+        
+        
+        <div class="cloud">
+            <div class="img">
+                <img src="pics/cloudy.png" alt="" width="100px" height="100px">
+            </div>
+        <div class="dgr">
+            <p class="degree">Degree</p>
+            <h5 class="city">Country</h5>
+            <h5 class="date">Current time</h5>
+
+        </div>
+        <div class="hmdt">
+            <div class="humidity">
+                <img src="pics/2586853.png" alt="" height="40px" width="30px">
+                <p class="humidityP">0%</p><br><p>Humidity</p>
+            </div>
+            <div class="windspeed">
+                <img src="pics/windspeed.png" alt="" height="40px" width="30px">
+                <p class="windS">0 Km/h</p><br><p>windspeed</p>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <script>
+        const searchInput = document.querySelector('.srch input');
+        const searchBtn = document.querySelector('.srch button');
+
+        
+      
+       async function getWeather(city) {
+        var res = await fetch(`https://api.weatherapi.com/v1/current.json?key=7e9f9d197ef747c7a9a194714231312&q=${city}`, {mode: "cors"});
+        var data = await res.json();      
+        
+        document.querySelector('.date').innerHTML = data.current.last_updated;
+        document.querySelector('.degree').innerHTML = Math.round(data.current.temp_c) + "°C";
+        document.querySelector('.city').innerHTML = data.location.country;
+        document.querySelector('.humidityP').innerHTML = Math.round(data.current.humidity) + "%";
+        document.querySelector('.windS').innerHTML = Math.round(data.current.wind_kph) + "Km/h";
+
+
+       }
+       searchBtn.addEventListener('click', () =>{
+        getWeather(searchInput.value);
+       });
+
+       function catchError(){
+        if(searchInput.value.trim()===''){
+            alert('Please enter a city name')
+        }
+       }
+       searchBtn.addEventListener('click', ()=>{
+        catchError();
+       })
+       
+      
+    </script>
+</body>
+</html>
